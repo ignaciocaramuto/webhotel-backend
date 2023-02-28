@@ -1,6 +1,8 @@
 package com.tp.webhotel.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +18,11 @@ public class TipoHabitacion implements Serializable {
     private int idTipoHabitacion;
     private String denominacion;
     private String descripcion;
+    @Column(name = "capacidad_personas")
+    @JsonProperty("capacidad_personas")
     private int capacidadPersonas;
+    @Column(name = "precio_por_dia")
+    @JsonProperty("precio_por_dia")
     private float precioPorDia;
 
     public TipoHabitacion(){}
