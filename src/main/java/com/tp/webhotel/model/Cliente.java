@@ -6,9 +6,9 @@ import java.io.Serializable;
 @Entity // Almacena la entidad en forma de tabla en la db automaticamente
 public class Cliente implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false,updatable = false)
+    private int idCliente;
     private String apellido;
     private String nombre;
     private java.sql.Date fechaNacimiento;
@@ -24,11 +24,11 @@ public class Cliente implements Serializable {
         this.email = email;
         this.clave = clave;
     }
-    public int getId() {
-        return id;
+    public int getIdCliente() {
+        return idCliente;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
     public String getApellido() {
         return apellido;
@@ -69,7 +69,7 @@ public class Cliente implements Serializable {
     }
 
     public String toString() {
-        return "\nPersona [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido
+        return "\nPersona [id=" + idCliente + ", nombre=" + nombre + ", apellido=" + apellido
                 + ", email=" + email + "]";
     }
 }

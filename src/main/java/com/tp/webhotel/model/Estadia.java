@@ -1,9 +1,6 @@
 package com.tp.webhotel.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -11,34 +8,41 @@ import java.sql.Date;
 public class Estadia implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(nullable = false,updatable = false)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="idEstadia",nullable = false,updatable = false)
+    private int idEstadia;
     private Date fechaIngreso;
     private Date fechaEgreso;
     private String estado;
-    private int idCliente;
-    private int nroHabitacion;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idCliente",nullable = false)
+    private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "idHabitacion")
+    private Habitacion habitacion;
+
+
 
 
     public Estadia(){}
 
-    public Estadia(Date fechaIngreso,Date fechaEgreso,String estado,int idCliente,int nroHabitacion){
+    public Estadia(Date fechaIngreso,Date fechaEgreso,String estado,Cliente cliente,Habitacion habitacion){
 
         this.fechaIngreso = fechaIngreso;
         this.fechaEgreso = fechaEgreso;
         this.estado = estado;
-        this.idCliente = idCliente;
-        this.nroHabitacion = nroHabitacion;
+        this.cliente = cliente;
+        this.habitacion = habitacion;
 
     }
 
-    public int getId() {
-        return id;
+    public int getidEstadia() {
+        return idEstadia;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setidEstadia(int idEstadia) {
+        this.idEstadia = idEstadia;
     }
 
     public Date getFechaIngreso() {
@@ -65,20 +69,20 @@ public class Estadia implements Serializable {
         this.estado = estado;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public int getNroHabitacion() {
-        return nroHabitacion;
+    public Habitacion getHabitacion() {
+        return habitacion;
     }
 
-    public void setNroHabitacion(int nroHabitacion) {
-        this.nroHabitacion = nroHabitacion;
+    public void setHabitacion(Habitacion habitacion) {
+        this.habitacion = habitacion;
     }
 }
 
