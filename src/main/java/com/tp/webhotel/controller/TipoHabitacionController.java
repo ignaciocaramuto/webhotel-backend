@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.util.List;
 
+//@CrossOrigin(origins = {"http://localhost:8080"}) Esto se utiliza para permitir las peticiones de ciertos origenes unicamente, cuando tengamos el front lo descomentamos
 @RestController
 @RequestMapping(path = "api/tipohabitaciones")
 public class TipoHabitacionController {
@@ -19,18 +20,18 @@ public class TipoHabitacionController {
         this.tipoHabitacionService = tipoHabitacionService;
     }
 
-    @GetMapping
+    @GetMapping(path="/all")
     public List<TipoHabitacion> getTipoHabitaciones() {
         return tipoHabitacionService.getTipoHabitaciones();
     }
 
-    @PostMapping
+    @PostMapping(path = "/register")
     public void registrarNuevoTipoHabitacion(@RequestBody TipoHabitacion tipoHabitacion){
         tipoHabitacionService.agregarNuevoTipoHabitacion(tipoHabitacion);
     }
 
-    @PutMapping(path = "{tipoHabitacionId}")
-    public void actualizarCliente(
+    @PutMapping(path = "/{tipoHabitacionId}")
+    public void actualizarTipoHabitacion(
             @PathVariable("tipoHabitacionId") int id,
             @RequestParam(required = false) String denominacion,
             @RequestParam(required = false) String descripcion,
@@ -38,7 +39,7 @@ public class TipoHabitacionController {
             @RequestParam(required = false) float precioPorDia) {
         tipoHabitacionService.actualizarTipoHabitacion(id, denominacion, descripcion, capacidadPersonas, precioPorDia);
     }
-    @DeleteMapping(path = "{tipoHabitacionId}")
+    @DeleteMapping(path = "/{tipoHabitacionId}")
     public void eliminarCliente(@PathVariable("tipoHabitacionId") int id){
         tipoHabitacionService.eliminarTipoHabitacion(id);
     }

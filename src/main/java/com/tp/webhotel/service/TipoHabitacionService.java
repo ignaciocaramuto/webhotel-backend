@@ -1,6 +1,6 @@
 package com.tp.webhotel.service;
 
-import com.tp.webhotel.model.Cliente;
+import com.tp.webhotel.exceptions.TipoHabitacionNotFoundException;
 import com.tp.webhotel.model.TipoHabitacion;
 import com.tp.webhotel.repository.TipoHabitacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,8 @@ import java.util.Optional;
 @Service
 public class TipoHabitacionService {
 
-    private final TipoHabitacionRepository tipoHabitacionRepository;
+    private TipoHabitacionRepository tipoHabitacionRepository;
+
 
     @Autowired
     public TipoHabitacionService(TipoHabitacionRepository tipoHabitacionRepository) {
@@ -24,6 +25,12 @@ public class TipoHabitacionService {
     public List<TipoHabitacion> getTipoHabitaciones() {
         return tipoHabitacionRepository.findAll();
     }
+
+    public Optional<TipoHabitacion> findById(int idTipoHabitacion){
+        return tipoHabitacionRepository.findById(idTipoHabitacion);
+
+    }
+
 
     public void agregarNuevoTipoHabitacion(TipoHabitacion tipoHabitacion) {
         boolean existe = tipoHabitacionRepository.existsById(tipoHabitacion.getIdTipoHabitacion());
@@ -56,6 +63,7 @@ public class TipoHabitacionService {
         if (precioPorDia > 0 && !Objects.equals(tipoHabitacion.getPrecioPorDia(), precioPorDia)) {
             tipoHabitacion.setPrecioPorDia(precioPorDia);
         }
+
     }
 
     public void eliminarTipoHabitacion(int id) {

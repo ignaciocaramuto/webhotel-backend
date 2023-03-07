@@ -7,6 +7,7 @@ import com.tp.webhotel.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+//@CrossOrigin(origins = {"http://localhost:8080"}) Esto se utiliza para permitir las peticiones de ciertos origenes unicamente, cuando tengamos el front lo descomentamos
 @RestController
 @RequestMapping(path = "api/cliente")
 public class ClienteController {
@@ -17,17 +18,17 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    @GetMapping
+    @GetMapping(path="/all")
     public List<Cliente> getClientes() {
         return clienteService.getClientes();
     }
 
-    @PostMapping
+    @PostMapping(path = "/register")
     public void registrarNuevoCliente(@RequestBody Cliente cliente){
         clienteService.agregarNuevoCliente(cliente);
     }
 
-    @PutMapping(path = "{clienteId}")
+    @PutMapping(path = "/{clienteId}")
     public void actualizarCliente(
             @PathVariable("clienteId") int id,
             @RequestParam(required = false) String apellido,
@@ -41,7 +42,7 @@ public class ClienteController {
                 );
     }
 
-    @DeleteMapping(path = "{clienteId}")
+    @DeleteMapping(path = "/{clienteId}")
     public void eliminarCliente(@PathVariable("clienteId") int id){
         clienteService.eliminarCliente(id);
     }

@@ -1,49 +1,37 @@
 package com.tp.webhotel.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Getter
+@Setter
 public class Habitacion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false,updatable = false)
+    @Column(name="id_habitacion",nullable = false,updatable = false)
+    @JsonProperty("id_habitacion")
     private int idHabitacion;
-    private int idTipoHabitacion;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idTipoHabitacion",nullable = false)
+    private TipoHabitacion tipoHabitacion;
 
+    @Column(name = "nro_habitacion")
+    @JsonProperty("nro_habitacion")
     private int nroHabitacion;
 
     public Habitacion(){}
 
-    public Habitacion(int idHabitacion,int idTipoHabitacion){
+    public Habitacion(int idHabitacion,TipoHabitacion tipoHabitacion){
         this.idHabitacion = idHabitacion;
-        this.idTipoHabitacion = idTipoHabitacion;
+        this.tipoHabitacion = tipoHabitacion;
     }
 
-    public int getIdHabitacion() {
-        return idHabitacion;
-    }
-
-    public void setIdHabitacion(int idHabitacion) {
-        this.idHabitacion = idHabitacion;
-    }
-
-    public int getIdTipoHabitacion() {
-        return idTipoHabitacion;
-    }
-
-    public void setIdTipoHabitacion(int idTipoHabitacion) {
-        this.idTipoHabitacion = idTipoHabitacion;
-    }
-
-    public int getNroHabitacion() {
-        return nroHabitacion;
-    }
-
-    public void setNroHabitacion(int nroHabitacion) {
-        this.nroHabitacion = nroHabitacion;
-    }
 }
 
 

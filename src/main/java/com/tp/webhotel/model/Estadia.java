@@ -1,25 +1,38 @@
 package com.tp.webhotel.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
+@Getter
+@Setter
 public class Estadia implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="idEstadia",nullable = false,updatable = false)
+    @Column(name="id_estadia",nullable = false,updatable = false)
+    @JsonProperty("id_estadia")
     private int idEstadia;
+
+    @Column(name = "fecha_ingreso")
+    @JsonProperty("fecha_ingreso")
     private Date fechaIngreso;
+
+    @Column(name = "fecha_egreso")
+    @JsonProperty("fecha_egreso")
     private Date fechaEgreso;
     private String estado;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idCliente",nullable = false)
+    @JoinColumn(name = "id_cliente",nullable = false)
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "idHabitacion")
+    @JoinColumn(name = "id_habitacion")
     private Habitacion habitacion;
 
 
@@ -37,53 +50,6 @@ public class Estadia implements Serializable {
 
     }
 
-    public int getidEstadia() {
-        return idEstadia;
-    }
-
-    public void setidEstadia(int idEstadia) {
-        this.idEstadia = idEstadia;
-    }
-
-    public Date getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(Date fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
-    }
-
-    public Date getFechaEgreso() {
-        return fechaEgreso;
-    }
-
-    public void setFechaEgreso(Date fechaEgreso) {
-        this.fechaEgreso = fechaEgreso;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Habitacion getHabitacion() {
-        return habitacion;
-    }
-
-    public void setHabitacion(Habitacion habitacion) {
-        this.habitacion = habitacion;
-    }
 }
 
 

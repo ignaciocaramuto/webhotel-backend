@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Servicio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false,updatable = false)
+    @Column(name = "id_servicio",nullable = false,updatable = false)
     private int idServicio;
     private String denominacion;
     private String descripcion;
