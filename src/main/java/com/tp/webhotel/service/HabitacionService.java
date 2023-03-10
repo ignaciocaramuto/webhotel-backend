@@ -43,15 +43,9 @@ public class HabitacionService {
 
         int idTipoHabitacion = habitacion.getTipoHabitacion().getIdTipoHabitacion();
         System.out.print(idTipoHabitacion);
-        Optional<TipoHabitacion> tipoHabitacion = tipoHabitacionService.findById(idTipoHabitacion);
-        if(tipoHabitacion.isPresent()){
-            habitacionRepository.save(habitacion);
-            return habitacion;
-        }
-        else{
-            throw new IllegalStateException("El tipo de habitacion "+idTipoHabitacion+" no existe");
-        }
-
+        TipoHabitacion tipoHabitacion = tipoHabitacionService.getById(idTipoHabitacion);
+        habitacionRepository.save(habitacion);
+        return habitacion;
 
     }
 

@@ -1,56 +1,34 @@
 package com.tp.webhotel.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
-import java.io.Serializable;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 
 @Entity
-public class Servicio implements Serializable {
+@Getter
+@Setter
+public class Servicio{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_servicio",nullable = false,updatable = false)
-    private int idServicio;
+    private int id;
     private String denominacion;
     private String descripcion;
-    private double costo;
+
+    @Positive
+    private BigDecimal costo;
 
     public Servicio(){}
 
-    public Servicio(int idServicio,String denominacion,String descripcion,double costo){
-        this.idServicio = idServicio;
+    public Servicio(int id,String denominacion,String descripcion,BigDecimal costo){
+        this.id = id;
         this.denominacion = denominacion;
         this.descripcion = descripcion;
         this.costo = costo;
     }
 
-    public int getIdServicio() {
-        return idServicio;
-    }
-
-    public void setIdServicio(int idServicio) {
-        this.idServicio = idServicio;
-    }
-
-    public String getDenominacion() {
-        return denominacion;
-    }
-
-    public void setDenominacion(String denominacion) {
-        this.denominacion = denominacion;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public double getCosto() {
-        return costo;
-    }
-
-    public void setCosto(double costo) {
-        this.costo = costo;
-    }
 }

@@ -3,10 +3,13 @@ package com.tp.webhotel.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -27,7 +30,7 @@ public class Estadia implements Serializable {
     @JsonProperty("fecha_egreso")
     private Date fechaEgreso;
     private String estado;
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     @JoinColumn(name = "id_cliente",nullable = false)
     private Cliente cliente;
 
@@ -35,6 +38,8 @@ public class Estadia implements Serializable {
     @JoinColumn(name = "id_habitacion")
     private Habitacion habitacion;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Servicio> servicios = new HashSet<>();
 
 
 
@@ -50,6 +55,14 @@ public class Estadia implements Serializable {
 
     }
 
+    public void agregarServicio(Servicio servicio){
+        if (servicio != null){
+            if(servicios == null){
+                servicios = new HashSet<>();
+            }
+            servicios.add(servicio);
+        }
+    }
 }
 
 
