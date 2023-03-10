@@ -2,32 +2,38 @@ package com.tp.webhotel.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
+@Getter
+@Setter
 public class TipoHabitacion implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(nullable = false,updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tipo_habitacion",nullable = false,updatable = false)
     private int idTipoHabitacion;
     private String denominacion;
     private String descripcion;
     @Column(name = "capacidad_personas")
     @JsonProperty("capacidad_personas")
+    @NotNull
     private int capacidadPersonas;
     @Column(name = "precio_por_dia")
     @JsonProperty("precio_por_dia")
-    private float precioPorDia;
+    @NotNull
+    private BigDecimal precioPorDia;
 
     public TipoHabitacion(){}
 
-    public TipoHabitacion(int idTipoHabitacion,String denominacion,String descripcion,int capacidadPersonas,float precioPorDia){
+    public TipoHabitacion(int idTipoHabitacion,String denominacion,String descripcion,int capacidadPersonas,BigDecimal precioPorDia){
         this.idTipoHabitacion = idTipoHabitacion;
         this.denominacion = denominacion;
         this.descripcion = descripcion;
@@ -35,43 +41,4 @@ public class TipoHabitacion implements Serializable {
         this.precioPorDia = precioPorDia;
     }
 
-    public int getIdTipoHabitacion() {
-        return idTipoHabitacion;
-    }
-
-    public void setIdTipoHabitacion(int idTipoHabitacion) {
-        this.idTipoHabitacion = idTipoHabitacion;
-    }
-
-    public String getDenominacion() {
-        return denominacion;
-    }
-
-    public void setDenominacion(String denominacion) {
-        this.denominacion = denominacion;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public int getCapacidadPersonas() {
-        return capacidadPersonas;
-    }
-
-    public void setCapacidadPersonas(int capacidadPersonas) {
-        this.capacidadPersonas = capacidadPersonas;
-    }
-
-    public float getPrecioPorDia() {
-        return precioPorDia;
-    }
-
-    public void setPrecioPorDia(float precioPorDia) {
-        this.precioPorDia = precioPorDia;
-    }
 }

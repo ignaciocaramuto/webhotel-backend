@@ -78,8 +78,8 @@ public class ClienteService {
        if (fechaNacimiento != null && !Objects.equals(cliente.getFechaNacimiento(), fechaNacimiento)) {
            cliente.setFechaNacimiento(fechaNacimiento);
        }
-       if (!Objects.equals(cliente.getTarjetaCredito(), nroTarjetaCredito)) {
-           cliente.setTarjetaCredito(nroTarjetaCredito);
+       if (!Objects.equals(cliente.getNroTarjetaCredito(), nroTarjetaCredito)) {
+           cliente.setNroTarjetaCredito(nroTarjetaCredito);
        }
     }
 }

@@ -1,84 +1,67 @@
 package com.tp.webhotel.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 public class Estadia implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(nullable = false,updatable = false)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_estadia",nullable = false,updatable = false)
+    @JsonProperty("id_estadia")
+    private int idEstadia;
+
+    @Column(name = "fecha_ingreso")
+    @JsonProperty("fecha_ingreso")
     private Date fechaIngreso;
+
+    @Column(name = "fecha_egreso")
+    @JsonProperty("fecha_egreso")
     private Date fechaEgreso;
     private String estado;
-    private int idCliente;
-    private int nroHabitacion;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "id_cliente",nullable = false)
+    private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "id_habitacion")
+    private Habitacion habitacion;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Servicio> servicios = new HashSet<>();
+
 
 
     public Estadia(){}
 
-    public Estadia(Date fechaIngreso,Date fechaEgreso,String estado,int idCliente,int nroHabitacion){
+    public Estadia(Date fechaIngreso,Date fechaEgreso,String estado,Cliente cliente,Habitacion habitacion){
 
         this.fechaIngreso = fechaIngreso;
         this.fechaEgreso = fechaEgreso;
         this.estado = estado;
-        this.idCliente = idCliente;
-        this.nroHabitacion = nroHabitacion;
+        this.cliente = cliente;
+        this.habitacion = habitacion;
 
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(Date fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
-    }
-
-    public Date getFechaEgreso() {
-        return fechaEgreso;
-    }
-
-    public void setFechaEgreso(Date fechaEgreso) {
-        this.fechaEgreso = fechaEgreso;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public int getNroHabitacion() {
-        return nroHabitacion;
-    }
-
-    public void setNroHabitacion(int nroHabitacion) {
-        this.nroHabitacion = nroHabitacion;
+    public void agregarServicio(Servicio servicio){
+        if (servicio != null){
+            if(servicios == null){
+                servicios = new HashSet<>();
+            }
+            servicios.add(servicio);
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.tp.webhotel.service;
 
 import com.tp.webhotel.model.Habitacion;
+import com.tp.webhotel.model.TipoHabitacion;
 import com.tp.webhotel.repository.HabitacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +13,13 @@ import java.util.Optional;
 @Service
 public class HabitacionService {
 
-    private final HabitacionRepository habitacionRepository;
+    private HabitacionRepository habitacionRepository;
+    private TipoHabitacionService tipoHabitacionService;
 
     @Autowired
-    public HabitacionService(HabitacionRepository habitacionRepository) {
+    public HabitacionService(HabitacionRepository habitacionRepository,TipoHabitacionService tipoHabitacionService) {
         this.habitacionRepository = habitacionRepository;
+        this.tipoHabitacionService = tipoHabitacionService;
     }
 
     public List<Habitacion> getHabitaciones() {
@@ -33,11 +36,17 @@ public class HabitacionService {
     }
 
     @Transactional
-    public void actualizarHabitacion(int id, int idTipoHabitacion) {
-        Habitacion habitacion = habitacionRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("La habitación con id " + id + " no existe"));
-        // TODO: agregar validación de existencia de idTipoHabitacion
-        habitacion.setIdTipoHabitacion(idTipoHabitacion);
+    public Habitacion actualizarHabitacion(Habitacion habitacion) {
+        int idHabitacion = habitacion.getIdHabitacion();
+        habitacionRepository.findById(idHabitacion)
+                .orElseThrow(() -> new IllegalStateException("La habitación con id " + idHabitacion + " no existe"));
+
+        int idTipoHabitacion = habitacion.getTipoHabitacion().getIdTipoHabitacion();
+        System.out.print(idTipoHabitacion);
+        TipoHabitacion tipoHabitacion = tipoHabitacionService.getById(idTipoHabitacion);
+        habitacionRepository.save(habitacion);
+        return habitacion;
+
     }
 
     public void eliminarHabitacion(int id) {
