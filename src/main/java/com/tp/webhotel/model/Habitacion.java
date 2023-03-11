@@ -4,6 +4,8 @@ package com.tp.webhotel.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,24 +13,24 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class Habitacion implements Serializable {
+@Validated
+public class Habitacion{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_habitacion",nullable = false,updatable = false)
-    @JsonProperty("id_habitacion")
-    private int idHabitacion;
+    private int id;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idTipoHabitacion",nullable = false)
+    @JoinColumn(name = "id_tipo_habitacion",nullable = false)
     private TipoHabitacion tipoHabitacion;
 
-    @Column(name = "nro_habitacion")
-    @JsonProperty("nro_habitacion")
+    @Column(name = "nro_habitacion",unique = true)
+    @NaturalId(mutable = true)
     private int nroHabitacion;
 
     public Habitacion(){}
 
-    public Habitacion(int idHabitacion,TipoHabitacion tipoHabitacion){
-        this.idHabitacion = idHabitacion;
+    public Habitacion(int id,TipoHabitacion tipoHabitacion){
+        this.id = id;
         this.tipoHabitacion = tipoHabitacion;
     }
 

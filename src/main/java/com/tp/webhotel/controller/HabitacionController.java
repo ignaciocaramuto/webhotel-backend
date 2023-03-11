@@ -1,45 +1,65 @@
 package com.tp.webhotel.controller;
 
+import com.tp.webhotel.dtos.HabitacionDto;
 import com.tp.webhotel.model.Cliente;
 import com.tp.webhotel.model.Habitacion;
+import com.tp.webhotel.model.TipoHabitacion;
 import com.tp.webhotel.service.HabitacionService;
+import com.tp.webhotel.service.TipoHabitacionService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Date;
 import java.util.List;
 
 //@CrossOrigin(origins = {"http://localhost:8080"}) Esto se utiliza para permitir las peticiones de ciertos origenes unicamente, cuando tengamos el front lo descomentamos
 @RestController
 @RequestMapping(path = "api/habitaciones")
+@AllArgsConstructor
+@Validated
 public class HabitacionController {
     private final HabitacionService habitacionService;
+    private final TipoHabitacionService tipoHabitacionService;
 
-    @Autowired
-    public HabitacionController(HabitacionService habitacionService) {
-        this.habitacionService = habitacionService;
+    @GetMapping
+    public List<Habitacion> getAll() {
+        return habitacionService.getAll();
     }
 
-    @GetMapping(path = "/all")
-    public List<Habitacion> getHabitaciones() {
-        return habitacionService.getHabitaciones();
+    @GetMapping("/{id}")
+    public Habitacion getById(@PathVariable("id") int id){
+        return habitacionService.getById(id);
     }
 
-    @PostMapping(path="/register")
-    public void registrarNuevaHabitacion(@RequestBody Habitacion habitacion) {
-        habitacionService.agregarNuevaHabitacion(habitacion);
+    @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Habitacion create(@RequestBody @Valid HabitacionDto habitacionDto) {
+        Habitacion habitacion = new Habitacion();
+        TipoHabitacion tipoHabitacion = tipoHabitacionService.getById(habitacionDto.idTipoHabitacion);
+        habitacion.setNroHabitacion(habitacionDto.nroHabitacion);
+        habitacion.setTipoHabitacion(tipoHabitacion);
+        return habitacionService.create(habitacion);
     }
 
-    @PutMapping(path = "/update")
-    public ResponseEntity<Habitacion> actualizarHabitacion(@RequestBody Habitacion habitacion) {
-        Habitacion updateHabitacion = habitacionService.actualizarHabitacion(habitacion);
-        return new ResponseEntity<>(updateHabitacion, HttpStatus.OK);
+    @PutMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Habitacion update(@PathVariable("id") int id, @RequestBody @Valid HabitacionDto habitacionDto) {
+        TipoHabitacion tipoHabitacion = tipoHabitacionService.getById(habitacionDto.idTipoHabitacion);
+        Habitacion habitacion = new Habitacion();
+        habitacion.setTipoHabitacion(tipoHabitacion);
+        habitacion.setNroHabitacion(habitacionDto.nroHabitacion);
+        return habitacionService.update(id,habitacion);
+
     }
 
-    @DeleteMapping(path = "/{habitacionId}")
-    public void eliminarHabitacion(@PathVariable("habitacionId") int id){
-        habitacionService.eliminarHabitacion(id);
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") int id){
+        habitacionService.delete(id);
     }
 }
