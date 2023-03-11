@@ -3,8 +3,10 @@ package com.tp.webhotel.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -15,16 +17,17 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente",nullable = false,updatable = false)
-    @JsonProperty("id_cliente")
-    private int idCliente;
+    private int id;
     private String apellido;
     private String nombre;
-    @JsonProperty("fecha_nacimiento")
+
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
+
+    @Email
+    @NaturalId
     private String email;
     private String clave;
-    @JsonProperty("nro_tarjeta_credito")
     @Column(name = "nro_tarjeta_credito")
     private int nroTarjetaCredito;
 
@@ -38,7 +41,7 @@ public class Cliente implements Serializable {
     }
 
     public String toString() {
-        return "\nPersona [id=" + idCliente + ", nombre=" + nombre + ", apellido=" + apellido
+        return "\nPersona [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido
                 + ", email=" + email + "]";
     }
 }

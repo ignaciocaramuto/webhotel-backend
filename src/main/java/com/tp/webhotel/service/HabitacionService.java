@@ -41,8 +41,7 @@ public class HabitacionService {
         habitacionRepository.findById(idHabitacion)
                 .orElseThrow(() -> new IllegalStateException("La habitación con id " + idHabitacion + " no existe"));
 
-        int idTipoHabitacion = habitacion.getTipoHabitacion().getIdTipoHabitacion();
-        System.out.print(idTipoHabitacion);
+        int idTipoHabitacion = habitacion.getTipoHabitacion().getId();
         TipoHabitacion tipoHabitacion = tipoHabitacionService.getById(idTipoHabitacion);
         habitacionRepository.save(habitacion);
         return habitacion;
