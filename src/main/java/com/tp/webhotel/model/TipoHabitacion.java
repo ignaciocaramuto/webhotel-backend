@@ -19,7 +19,7 @@ public class TipoHabitacion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_habitacion",nullable = false,updatable = false)
-    private int idTipoHabitacion;
+    private int id;
     private String denominacion;
     private String descripcion;
     @Column(name = "capacidad_personas")
@@ -33,8 +33,8 @@ public class TipoHabitacion implements Serializable {
 
     public TipoHabitacion(){}
 
-    public TipoHabitacion(int idTipoHabitacion,String denominacion,String descripcion,int capacidadPersonas,BigDecimal precioPorDia){
-        this.idTipoHabitacion = idTipoHabitacion;
+    public TipoHabitacion(int id,String denominacion,String descripcion,int capacidadPersonas,BigDecimal precioPorDia){
+        this.id = id;
         this.denominacion = denominacion;
         this.descripcion = descripcion;
         this.capacidadPersonas = capacidadPersonas;
