@@ -47,7 +47,8 @@ public class HabitacionController {
     }
 
     @PutMapping(path = "/{id}")
-    public Habitacion actualizarHabitacion(@PathVariable("id") int id, @RequestBody @Valid HabitacionDto habitacionDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public Habitacion update(@PathVariable("id") int id, @RequestBody @Valid HabitacionDto habitacionDto) {
         TipoHabitacion tipoHabitacion = tipoHabitacionService.getById(habitacionDto.idTipoHabitacion);
         Habitacion habitacion = new Habitacion();
         habitacion.setTipoHabitacion(tipoHabitacion);
