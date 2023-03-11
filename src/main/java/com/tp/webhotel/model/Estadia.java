@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Estadia implements Serializable {
+public class Estadia{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class TipoHabitacion implements Serializable {
+public class TipoHabitacion{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

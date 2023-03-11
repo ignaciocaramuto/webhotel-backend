@@ -13,7 +13,7 @@ import java.sql.Date;
 @Entity // Almacena la entidad en forma de tabla en la db automaticamente
 @Getter
 @Setter
-public class Cliente implements Serializable {
+public class Cliente{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente",nullable = false,updatable = false)
@@ -25,7 +25,8 @@ public class Cliente implements Serializable {
     private Date fechaNacimiento;
 
     @Email
-    @NaturalId
+    @Column(unique = true)
+    @NaturalId(mutable = true)
     private String email;
     private String clave;
     @Column(name = "nro_tarjeta_credito")

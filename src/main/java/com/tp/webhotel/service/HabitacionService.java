@@ -3,56 +3,46 @@ package com.tp.webhotel.service;
 import com.tp.webhotel.model.Habitacion;
 import com.tp.webhotel.model.TipoHabitacion;
 import com.tp.webhotel.repository.HabitacionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class HabitacionService {
 
     private HabitacionRepository habitacionRepository;
     private TipoHabitacionService tipoHabitacionService;
 
-    @Autowired
-    public HabitacionService(HabitacionRepository habitacionRepository,TipoHabitacionService tipoHabitacionService) {
-        this.habitacionRepository = habitacionRepository;
-        this.tipoHabitacionService = tipoHabitacionService;
-    }
-
-    public List<Habitacion> getHabitaciones() {
+    public List<Habitacion> getAll() {
         return habitacionRepository.findAll();
     }
 
-    public void agregarNuevaHabitacion(Habitacion habitacion) {
-        // TODO: analizar si es necesaria la validación ya que el id es autoincremental
-        Optional<Habitacion> existeHabitacion = habitacionRepository.findById(habitacion.getNroHabitacion());
-        if (existeHabitacion.isPresent()) {
-            throw new IllegalStateException("La habitación ya ha sido registrada anteriormente");
-        }
-        habitacionRepository.save(habitacion);
+    public Habitacion getById(int id) {
+        return habitacionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public Habitacion create(Habitacion habitacion) {
+        return habitacionRepository.save(habitacion);
     }
 
     @Transactional
-    public Habitacion actualizarHabitacion(Habitacion habitacion) {
-        int idHabitacion = habitacion.getIdHabitacion();
-        habitacionRepository.findById(idHabitacion)
-                .orElseThrow(() -> new IllegalStateException("La habitación con id " + idHabitacion + " no existe"));
-
-        int idTipoHabitacion = habitacion.getTipoHabitacion().getId();
-        TipoHabitacion tipoHabitacion = tipoHabitacionService.getById(idTipoHabitacion);
-        habitacionRepository.save(habitacion);
-        return habitacion;
+    public Habitacion update(int id,Habitacion habitacion) {
+        Habitacion habitacionUpdate = habitacionRepository.getById(id);
+        habitacionUpdate.setNroHabitacion(habitacion.getNroHabitacion());
+        habitacionUpdate.setTipoHabitacion(habitacion.getTipoHabitacion());
+        return habitacionRepository.save(habitacionUpdate);
 
     }
 
-    public void eliminarHabitacion(int id) {
-        boolean existe = habitacionRepository.existsById(id);
-        if (!existe) {
-            throw new IllegalStateException("La habitación con id " + id + " no existe");
-        }
+    public void delete(int id) {
         habitacionRepository.deleteById(id);
     }
+
+
 }
